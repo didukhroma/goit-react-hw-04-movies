@@ -1,0 +1,10 @@
+.box {
+  display: flex;
+}
+.imgWrapper {
+  margin-right: 30px;
+}
+.img {
+  display: block;
+  max-height: 300px;
+}
