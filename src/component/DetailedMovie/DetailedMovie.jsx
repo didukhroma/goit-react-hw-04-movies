@@ -1,6 +1,5 @@
 import styles from './DetailedMovie.module.css';
 const DetailedMovie = ({ title, score, overview, genres, urlImg, year }) => {
-  console.log(year);
   return (
     <div className={styles.box}>
       <div className={styles.imgWrapper}>

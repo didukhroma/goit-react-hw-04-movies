@@ -16,7 +16,7 @@ class HomePage extends Component {
       <div>
         <h1>Trending today</h1>
         {this.state.movies.length > 0 && (
-          <MovieList movies={this.state.movies} url={this.props.match.url} />
+          <MovieList movies={this.state.movies} />
         )}
       </div>
     );
