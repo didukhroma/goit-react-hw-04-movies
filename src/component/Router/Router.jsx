@@ -6,13 +6,8 @@ const Router = () => {
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
       <Switch>
-        {routes.map(rout => (
-          <Route
-            key={rout.id}
-            exact={rout.exact}
-            path={rout.path}
-            component={rout.component}
-          />
+        {routes.map(({ id, exact, path, component }) => (
+          <Route key={id} exact={exact} path={path} component={component} />
         ))}
         <Redirect to="/" />
       </Switch>

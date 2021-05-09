@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import styles from './MovieList.module.css';
-const MovieList = props => {
-  console.log(props);
-  const { movies, match, location } = props;
+import PropTypes from 'prop-types';
+const MovieList = ({ movies, match, location }) => {
   return (
     <ul className={styles.list}>
       {movies.length > 0 &&
@@ -25,5 +24,7 @@ const MovieList = props => {
     </ul>
   );
 };
-
+MovieList.propTypes = {
+  movies: PropTypes.array,
+};
 export default withRouter(MovieList);

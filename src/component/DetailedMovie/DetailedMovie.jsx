@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styles from './DetailedMovie.module.css';
 const DetailedMovie = ({ title, score, overview, genres, urlImg, year }) => {
   return (
@@ -18,5 +19,12 @@ const DetailedMovie = ({ title, score, overview, genres, urlImg, year }) => {
     </div>
   );
 };
-
+DetailedMovie.propTypes = {
+  title: PropTypes.string,
+  score: PropTypes.number,
+  overview: PropTypes.string,
+  genres: PropTypes.string,
+  urlImg: PropTypes.string,
+  year: PropTypes.string,
+};
 export default DetailedMovie;

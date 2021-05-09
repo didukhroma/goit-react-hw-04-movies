@@ -7,17 +7,23 @@ class HomePage extends Component {
     movies: [],
   };
   async componentDidMount() {
-    const trendingMovies = await Api.getDayTendingMovies();
-    this.setState(() => ({ movies: [...trendingMovies] }));
+    try {
+      const response = await Api.getDayTendingMovies();
+      const {
+        data: { results },
+      } = response;
+      this.setState(() => ({ movies: [...results] }));
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
+    const { movies } = this.state;
     return (
       <div>
         <h1>Trending today</h1>
-        {this.state.movies.length > 0 && (
-          <MovieList movies={this.state.movies} />
-        )}
+        {movies.length > 0 && <MovieList movies={movies} />}
       </div>
     );
   }

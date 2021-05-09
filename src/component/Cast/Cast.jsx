@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import Api from '../../utils/apiServices';
 import styles from './Cast.module.css';
 
@@ -7,29 +8,37 @@ class Cast extends Component {
     cast: [],
   };
   async componentDidMount() {
-    const response = await Api.getMovieCast(this.props.movieId);
-    this.setState({ cast: [...response] });
+    try {
+      const { movieId } = this.props;
+      const response = await Api.getMovieCast(movieId);
+      const {
+        data: { cast },
+      } = response;
+      this.setState({ cast: [...cast] });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
+    const { cast } = this.state;
     return (
       <>
-        {this.state.cast.length > 0 && (
+        {cast.length > 0 && (
           <div>
-            <h2>Cast</h2>
             <ul>
-              {this.state.cast.map(item => (
-                <li key={item.id}>
+              {cast.map(({ id, name, character, profile_path }) => (
+                <li key={id}>
                   <img
                     className={styles.img}
                     src={
-                      item.profile_path &&
-                      `https://image.tmdb.org/t/p/w500${item.profile_path}`
+                      profile_path &&
+                      `https://image.tmdb.org/t/p/w500${profile_path}`
                     }
-                    alt={`Poster ${item.name}`}
+                    alt={`Poster ${name}`}
                   />
-                  <p>{item.name}</p>
-                  <p>Character: {item.character}</p>
+                  <p>{name}</p>
+                  <p>Character: {character}</p>
                 </li>
               ))}
             </ul>
@@ -39,5 +48,7 @@ class Cast extends Component {
     );
   }
 }
-
+Cast.propTypes = {
+  movieId: PropTypes.string.isRequired,
+};
 export default Cast;

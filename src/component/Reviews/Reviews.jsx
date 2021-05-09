@@ -1,28 +1,37 @@
 import { Component } from 'react';
 import Api from '../../utils/apiServices';
+import PropTypes from 'prop-types';
 class Reviews extends Component {
   state = {
     reviews: [],
   };
   async componentDidMount() {
-    const response = await Api.getMovieReviews(this.props.movieId);
-    this.setState({ reviews: [...response] });
+    try {
+      const { movieId } = this.props;
+      const response = await Api.getMovieReviews(movieId);
+      const {
+        data: { results },
+      } = response;
+      this.setState({ reviews: [...results] });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
+    const { reviews } = this.state;
     return (
       <>
-        {this.state.reviews.length === 0 && (
+        {reviews.length === 0 && (
           <h3>We don't have any reviews for this movie</h3>
         )}
-        {this.state.reviews.length > 0 && (
+        {reviews.length > 0 && (
           <div>
-            <h2>Reviews</h2>
             <ul>
-              {this.state.reviews.map(item => (
-                <li key={item.id}>
-                  <p>Author: {item.author}</p>
-                  <p>{item.content}</p>
+              {reviews.map(({ id, author, content }) => (
+                <li key={id}>
+                  <p>Author: {author}</p>
+                  <p>{content}</p>
                 </li>
               ))}
             </ul>
@@ -32,5 +41,8 @@ class Reviews extends Component {
     );
   }
 }
+Reviews.propTypes = {
+  movieId: PropTypes.string.isRequired,
+};
 
 export default Reviews;

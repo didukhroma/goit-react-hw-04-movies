@@ -5,15 +5,15 @@ import styles from './Navigation.module.css';
 const Navigation = () => {
   return (
     <nav className={styles.nav}>
-      {navPath.map(item => (
+      {navPath.map(({ id, exact, path, text }) => (
         <NavLink
-          key={item.id}
-          exact={item.exact}
-          to={item.path}
+          key={id}
+          exact={exact}
+          to={path}
           className={styles.navLink}
           activeClassName={styles.navLinkActive}
         >
-          {item.text}
+          {text}
         </NavLink>
       ))}
     </nav>

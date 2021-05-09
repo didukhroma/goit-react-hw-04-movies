@@ -6,20 +6,19 @@ class MoviesPage extends Component {
   state = {
     query: null,
     movies: [],
-    page: 1,
   };
   componentDidMount() {
     const query = this.getQueryFromProps(this.props);
     if (!query) return;
-    this.getMovies(query, this.state.page);
+    this.getMovies(query);
   }
 
   componentDidUpdate(prevProps) {
     const prevQuery = this.getQueryFromProps(prevProps);
     const nextQuery = this.getQueryFromProps(this.props);
     if (prevQuery !== nextQuery) {
-      this.setState(() => ({ movies: [], page: 1 }));
-      this.getMovies(nextQuery, this.state.page);
+      this.setState(() => ({ movies: [] }));
+      this.getMovies(nextQuery);
     }
   }
 
@@ -49,22 +48,24 @@ class MoviesPage extends Component {
     this.props.history.push({
       search: `query=${this.state.query}`,
     });
-    this.setState(() => ({ page: 1 }));
   };
 
-  getMovies = async (query, page) => {
-    const response = await Api.getMoviesByQuery(query, page);
-    const { results } = response;
-    this.setState(prev => ({
-      movies: [...prev.movies, ...results],
-      page: prev.page + 1,
-    }));
-  };
-  handleLoadMore = () => {
-    this.getMovies(this.state.query, this.state.page);
+  getMovies = async query => {
+    try {
+      const response = await Api.getMoviesByQuery(query);
+      const {
+        data: { results },
+      } = response;
+      this.setState(prev => ({
+        movies: [...prev.movies, ...results],
+      }));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {
+    const { movies } = this.state;
     return (
       <>
         <h1>MoviesPage</h1>
@@ -72,12 +73,7 @@ class MoviesPage extends Component {
           <input type="text" onChange={this.handleChange} />
           <button type="submit">Search</button>
         </form>
-        <MovieList movies={this.state.movies} />
-        {this.state.page !== 1 && (
-          <button type="button" onClick={this.handleLoadMore}>
-            Load more
-          </button>
-        )}
+        <MovieList movies={movies} />
       </>
     );
   }
