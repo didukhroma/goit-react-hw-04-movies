@@ -25,9 +25,14 @@ const routes = [
     component: AsyncMovieDetailsPage,
   },
 ];
-//----------------------------
+//----------------------------Header-Navigation
 const home = routes.find(({ id }) => id === 'HomePage');
 const movies = routes.find(({ id }) => id === 'MoviesPage');
 const navPath = [home, { ...movies, exact: false }];
+//----------------------------Cast-Reviews-Navigation
+// const addInfoRoutes = [{
+//   id: 'Cast',
+//   path:
+// }];
 //----------------------------
 export { routes, navPath };

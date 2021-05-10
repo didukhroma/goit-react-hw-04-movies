@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
-import { NavLink, Route } from 'react-router-dom';
-import DetailedMovie from '../../component/DetailedMovie/DetailedMovie';
+import { Component } from 'react';
+import DetailedInfo from '../../component/DetailedInfo';
 import Api from '../../utils/apiServices.js';
-import Cast from '../../component/Cast';
-import Reviews from '../../component/Reviews';
+import Button from '../../component/Button/Button';
+import AddInfo from '../../component/AddInfo/AddInfo';
 
 class MovieDetailsPage extends Component {
   state = {
@@ -55,7 +54,7 @@ class MovieDetailsPage extends Component {
       score: vote_average * 10,
       overview: overview,
       genres: genres.flatMap(genre => genre.name).join(' '),
-      img: `https://image.tmdb.org/t/p/w500${poster_path}`,
+      img: poster_path && `https://image.tmdb.org/t/p/w500${poster_path}`,
       year: release_date.split('-')[0],
     };
     return normalizedResult;
@@ -63,13 +62,10 @@ class MovieDetailsPage extends Component {
 
   render() {
     const { title, score, genres, img, year, movieId } = this.state;
-    const { match } = this.props;
     return (
       <div>
-        <button type="button" onClick={this.backToPrevPage}>
-          Go back
-        </button>
-        <DetailedMovie
+        <Button type="button" cbOnClick={this.backToPrevPage} text="Go back" />
+        <DetailedInfo
           title={title}
           overview={title}
           score={score}
@@ -77,31 +73,7 @@ class MovieDetailsPage extends Component {
           urlImg={img}
           year={year}
         />
-        <h2>Additional information</h2>
-        <ul>
-          <li>
-            <NavLink to={`${match.url}/cast`}>Cast</NavLink>
-          </li>
-          <li>
-            <NavLink to={`${match.url}/reviews`}>Reviews</NavLink>
-          </li>
-        </ul>
-        <Route
-          exact
-          path={`${match.url}/cast`}
-          render={() => {
-            return movieId && <Cast movieId={movieId} />;
-          }}
-        />
-        <Route
-          exact
-          path={`${match.url}/reviews`}
-          render={() => {
-            return (
-              this.state.movieId && <Reviews movieId={this.state.movieId} />
-            );
-          }}
-        />
+        <AddInfo movieId={movieId} />
       </div>
     );
   }

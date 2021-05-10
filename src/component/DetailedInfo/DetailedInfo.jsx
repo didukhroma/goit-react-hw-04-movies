@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import styles from './DetailedMovie.module.css';
-const DetailedMovie = ({ title, score, overview, genres, urlImg, year }) => {
+import styles from './DetailedInfo.module.css';
+const DetailedInfo = ({ title, score, overview, genres, urlImg, year }) => {
   return (
     <div className={styles.box}>
       <div className={styles.imgWrapper}>
@@ -19,7 +19,7 @@ const DetailedMovie = ({ title, score, overview, genres, urlImg, year }) => {
     </div>
   );
 };
-DetailedMovie.propTypes = {
+DetailedInfo.propTypes = {
   title: PropTypes.string,
   score: PropTypes.number,
   overview: PropTypes.string,
@@ -27,4 +27,4 @@ DetailedMovie.propTypes = {
   urlImg: PropTypes.string,
   year: PropTypes.string,
 };
-export default DetailedMovie;
+export default DetailedInfo;
